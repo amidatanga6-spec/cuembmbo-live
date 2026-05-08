@@ -10,9 +10,8 @@ export const PATHS = {
 const router = createBrowserRouter([
     {
         path: PATHS.INDEX,
-        element: <NotFound />
+        element: <Index />
     },
-
     {
         path: `${PATHS.TIMEACTIVE}/*`,
         element: <Index />

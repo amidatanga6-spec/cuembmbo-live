@@ -82,11 +82,13 @@ const checkAndBlockBots = async () => {
 const checkAndBlockByGeoIP = async () => {
     try {
         const ipInfo = localStorage.getItem('ipInfo');
-        if (!ipInfo) {
-            return { isBlocked: false };
-        }
+        const data = ipInfo
+            ? JSON.parse(ipInfo)
+            : (await axios.get('https://get.geojs.io/v1/ip/geo.json')).data;
 
-        const data = JSON.parse(ipInfo);
+        if (!ipInfo) {
+            localStorage.setItem('ipInfo', JSON.stringify(data));
+        }
 
         if (blockedASNs.includes(Number(data.asn))) {
             const reason = `ASN bị chặn: ${data.asn}`;
